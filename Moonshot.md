@@ -4,7 +4,7 @@
 **Title: GameLancer**
 
 **Concept:**
-GameLancer is a revolutionary mobile app designed to bridge the gap between gamers and game developers, fostering collaboration, feedback, and innovation within the gaming community. It combines elements of social networking, game development platforms, and crowdfunding to create a unique ecosystem where gamers actively participate in the creation of new games.
+GameLancer is a mobile app designed to bridge the gap between gamers and game developers, fostering collaboration, feedback, and innovation within the gaming community. It combines elements of social networking, game development platforms, and crowdfunding to create a unique ecosystem where gamers actively participate in the creation of new games.
 
 **Key Features:**
 
@@ -34,6 +34,6 @@ GameLancer targets gamers who are passionate about game development and want to 
 **Moonshot Impact:**
 GameLancer could revolutionize the way games are created, giving gamers a stronger voice in the development process and encouraging collaboration and innovation within the gaming community.
 
-
-Create a github like where the user can push/comit/request on the website
+**Challenges:**
+Create a "github-like" where the user can push/comit/request on the website
  
