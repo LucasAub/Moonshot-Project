@@ -1,39 +1,119 @@
-# Moonshot project Lucas:
+# **Project Title**: SmartLearn: AI Learning Planner
 
-##Ideas:
-**Title: GameLancer**
+## **Summary**
+SmartLearn is an app designed to help students and learners achieve their educational goals. By leveraging AI, the app generates personalized study plans based on user goals, time availability, and deadlines. It dynamically adjusts schedules as users progress and provides relevant learning resources to make the process more efficient and effective.
 
-**Concept:**
-GameLancer is a mobile app designed to bridge the gap between gamers and game developers, fostering collaboration, feedback, and innovation within the gaming community. It combines elements of social networking, game development platforms, and crowdfunding to create a unique ecosystem where gamers actively participate in the creation of new games.
+## **Key Features**
+1. **Personalized Study Plans**: 
+   Users input their learning objectives and time constraints, and the app creates a tailored roadmap for achieving them.
+   
+2. **Dynamic Progress Tracking**:
+   Tracks user progress and recalibrates the plan if they fall behind or complete tasks early.
 
-**Key Features:**
+3. **AI-Powered Resource Suggestions**:
+   Recommends helpful tutorials, articles, and exercises based on the user’s goals.
 
-1. **Idea Incubator:** Users can submit game ideas and concepts, which are then showcased on the platform. Other users can browse through these ideas, vote on them, and provide feedback.
+4. **Quiz Integration** (Optional for MVP):
+   Offers short quizzes to reinforce knowledge and track comprehension.
 
-2. **Collaborative Development:** GameLancer allows developers to create project teams with other users interested in similar game ideas. They can collaborate on game design, development, and testing, utilizing built-in tools for project management and communication.
+5. **Simple and Intuitive Interface**:
+   A user-friendly dashboard displays daily tasks, progress tracking, and learning milestones.
 
-3. **Prototype Showcase:** Developers can upload prototypes or demos of their games for feedback from the community. Users can play these demos and provide detailed feedback, helping developers refine their ideas.
+## **Target Audience**
+- Students preparing for exams or certifications.
+- Professionals seeking to upskill or reskill.
+- Lifelong learners pursuing hobbies or new skills.
 
-4. **Crowdfunding:** Once a game reaches a certain level of development, developers can launch crowdfunding campaigns directly within the app. Users can pledge funds to support the development of their favorite projects, unlocking exclusive rewards and perks.
+## **Vision**
+To make learning smarter and more accessible by helping users plan effectively, stay organized, and achieve their goals with confidence.
 
-5. **Community Hub:** GameLancer serves as a hub for the gaming community, with forums, discussion groups, and live events where users can connect with like-minded individuals, share tips and strategies, and stay updated on the latest trends in game development.
+# **How SmartLearn Works**
 
-6. **Recognition and Rewards:** Users earn reputation points and rewards for actively participating in the community, providing valuable feedback, and supporting projects. Top contributors are featured prominently on the platform and may receive special perks.
+## **1. User Registration and Goal Setup**
+- **What the User Does**:
+  - Signs up or logs in.
+  - Inputs basic details such as:
+    - **Subject**: "Learn Python."
+    - **Deadline**: "3 months."
+    - **Time Available**: "1 hour/day."
+    - **Difficulty Level**: Beginner, Intermediate, or Advanced (optional).
+  - Submits their preferences to create a personalized learning plan.
 
-**Monetization:**
+- **What Happens Behind the Scenes**:
+  - The app saves the user profile and preferences to a database.
+  - A schedule generation algorithm divides the subject into milestones and daily tasks tailored to the timeline and availability.
 
-1. **Premium Subscriptions:** Offer premium subscriptions with access to advanced features such as priority support, exclusive content, and early access to projects.
+---
 
-2. **Transaction Fees:** Charge a small transaction fee for crowdfunding campaigns and in-app purchases, with a percentage going to the platform.
+## **2. Personalized Study Plan Creation**
+- **What the User Sees**:
+  - A clear daily or weekly study plan, e.g.:
+    - Day 1: Introduction to Python.
+    - Day 2: Learn about variables and data types.
+    - Day 3: Practice basic exercises.
+  - A progress bar showing overall progress.
+  - Notifications or reminders to stay on track.
 
-3. **Advertisement:** Display targeted advertisements from game publishers, hardware manufacturers, and other relevant advertisers.
+- **What Happens Behind the Scenes**:
+  - AI or task-scheduling algorithms organize tasks based on:
+    - Time constraints.
+    - Task difficulty.
+    - Prioritization of foundational concepts first.
+  - A roadmap is generated using a predefined database of topics and resources.
 
-**Target Audience:**
-GameLancer targets gamers who are passionate about game development and want to actively contribute to the creation of new games. It appeals to both aspiring developers looking for resources and support, as well as gamers looking for unique, community-driven gaming experiences.
+---
 
-**Moonshot Impact:**
-GameLancer could revolutionize the way games are created, giving gamers a stronger voice in the development process and encouraging collaboration and innovation within the gaming community.
+## **3. Learning Resources and Quizzes**
+- **What the User Sees**:
+  - A "Resources" section with curated recommendations such as:
+    - YouTube tutorials.
+    - Online articles.
+    - PDFs or books.
+  - Optional quizzes with 5–10 questions to reinforce learning.
 
-**Challenges:**
-Create a "github-like" where the user can push/comit/request on the website
- 
+- **What Happens Behind the Scenes**:
+  - The app fetches relevant resources from APIs or a curated database.
+  - Quizzes pull questions from a question bank stored in JSON or SQLite.
+
+---
+
+## **4. Dynamic Progress Tracking**
+- **What the User Does**:
+  - Marks tasks as “Complete” upon finishing.
+  - Views progress through:
+    - A progress bar.
+    - A summary of completed and upcoming tasks.
+    - Adjusted daily schedules if they fall behind or complete tasks early.
+
+- **What Happens Behind the Scenes**:
+  - The app recalculates the workload based on:
+    - Completed tasks.
+    - Missed deadlines.
+    - Remaining time.
+  - Algorithms dynamically re-prioritize tasks to keep the user on track.
+
+---
+
+## **5. Notifications and Insights**
+- **What the User Sees**:
+  - Daily reminders for upcoming tasks.
+  - Motivational messages like, “You’re halfway through Python Basics!”
+  - Insights such as:
+    - "You’re most productive on weekdays."
+    - "You’ve studied 10 hours this week."
+
+- **What Happens Behind the Scenes**:
+  - The app analyzes user activity (e.g., task completion, login times) to generate insights and reminders.
+
+---
+
+## **Example User Journey**
+1. **Sign-Up**: A student registers and inputs their goal: "Learn Python in 3 months with 1 hour/day."
+2. **Personalized Plan**: The app generates a study plan:
+   - Day 1: Watch a video on Python basics.
+   - Day 2: Practice exercises on variables and data types.
+3. **Progress Tracking**: The student marks Day 1 as complete and receives a motivational message: "Great job! Keep going!"
+4. **Adjustments**: The student misses Day 2, so the app redistributes tasks for the week to stay on track.
+5. **Completion**: After 3 months, the student has completed the plan, reviewed quizzes, and achieved their learning goal.
+
+---
