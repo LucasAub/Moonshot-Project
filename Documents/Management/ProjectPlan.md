@@ -25,12 +25,11 @@ This document outlines the detailed project plan, including key tasks and deadli
   - [ ] List primary features of the tool
   - [ ] Define accessibility compliance criteria
   - [ ] Set measurable success metrics
-  - [ ] Get initial feedback from potential users
+  - [x] Get initial feedback from potential users
 
-- [ ] Create **Trello board for task management** **(Mar 3 - Mar 5)**
-  - [ ] Set up columns for backlog, in progress, review, and done
-  - [ ] Add initial project tasks
-  - [ ] Invite team members if applicable
+- [x] Create **Trello board for task management** **(Mar 3 - Mar 5)**
+  - [x] Set up columns for backlog, in progress, review, and done
+  - [x] Add initial project tasks
 
 - [ ] Write **Functional Specifications** **(Mar 5 - Mar 12)**
   - [ ] Define expected inputs and outputs

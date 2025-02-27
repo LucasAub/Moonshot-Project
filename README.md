@@ -17,7 +17,7 @@ The **PDF Accessibility Tool** is designed to verify and enhance PDF documents f
 ---
 
 ## 📆 Project Plan
-For a detailed project roadmap, check the **[Project Plan](./project_plan.md)**.
+For a detailed project roadmap, check the **[Project Plan](./Documents/Management/ProjectPlan.md)**.
 
 ### 📌 Development Phases
 1. **Research & Planning** (Feb 26 - Mar 20, 2025)
