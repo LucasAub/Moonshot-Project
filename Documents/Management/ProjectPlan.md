@@ -10,21 +10,21 @@ This document outlines the detailed project plan, including key tasks and deadli
 
 ### **Phase 1: Research & Planning (Feb 26 – Mar 20, 2025)**
 
-- [ ] Research **WAI guidelines** for accessible PDFs **(Feb 26 - Mar 1)**
-  - [ ] Read WAI documentation on PDF accessibility
-  - [ ] Identify key accessibility requirements
-  - [ ] Summarize WAI guidelines relevant to the project
+- [x] Research **WAI guidelines** for accessible PDFs **(Feb 26 - Mar 1)**
+  - [x] Read WAI documentation on PDF accessibility
+  - [x] Identify key accessibility requirements
+  - [x] Summarize WAI guidelines relevant to the project
 
-- [ ] Identify necessary **technical stack** (Python, AI, OCR, PDF libraries) **(Feb 26 - Mar 3)**
-  - [ ] Research available Python PDF processing libraries
-  - [ ] Compare OCR tools for text extraction
-  - [ ] Select AI models for accessibility improvements
-  - [ ] Document technology choices
+- [x] Identify necessary **technical stack** (Python, AI, OCR, PDF libraries) **(Feb 26 - Mar 3)**
+  - [x] Research available Python PDF processing libraries
+  - [x] Compare OCR tools for text extraction
+  - [x] Select AI models for accessibility improvements
+  - [x] Document technology choices
 
-- [ ] Define **initial project scope & objectives** **(Mar 1 - Mar 4)**
-  - [ ] List primary features of the tool
-  - [ ] Define accessibility compliance criteria
-  - [ ] Set measurable success metrics
+- [x] Define **initial project scope & objectives** **(Mar 1 - Mar 4)**
+- [x] List primary features of the tool
+  - [x] Define accessibility compliance criteria
+  - [x] Set measurable success metrics
   - [x] Get initial feedback from potential users
 
 - [x] Create **Trello board for task management** **(Mar 3 - Mar 5)**
