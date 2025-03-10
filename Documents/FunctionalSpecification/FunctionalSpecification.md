@@ -1,4 +1,4 @@
-# 📄 Functional Specification: PDF Accessibility Tool
+# 📄 Functional Specification: PDF Accessibility Tool 
 
 ## **Table of Contents**
 - [📄 Functional Specification: PDF Accessibility Tool](#-functional-specification-pdf-accessibility-tool)
@@ -17,10 +17,10 @@
     - [**2.5 Senior with Declining Vision**](#25-senior-with-declining-vision)
   - [**3. Functional Requirements**](#3-functional-requirements)
     - [**3.1 Core Functionalities**](#31-core-functionalities)
-      - [**3.1.1 Simple PDF Upload**](#311-simple-pdf-upload)
+      - [**3.1.1 Simple PDF Selection**](#311-simple-pdf-selection)
       - [**3.1.2 Automated Accessibility Analysis**](#312-automated-accessibility-analysis)
       - [**3.1.3 One-Click PDF Remediation**](#313-one-click-pdf-remediation)
-      - [**3.1.4 Fixed Version Download**](#314-fixed-version-download)
+      - [**3.1.4 Fixed Version Saving**](#314-fixed-version-saving)
     - [**3.2 Accessibility Improvements**](#32-accessibility-improvements)
       - [**3.2.1 Alternative Text for Images**](#321-alternative-text-for-images)
       - [**3.2.2 Document Structure Enhancement**](#322-document-structure-enhancement)
@@ -28,16 +28,17 @@
       - [**3.2.4 Text Readability Improvement**](#324-text-readability-improvement)
       - [**3.2.5 Form Field Accessibility**](#325-form-field-accessibility)
   - [**4. User Interface Requirements**](#4-user-interface-requirements)
-    - [**4.1 Simplified Home Page**](#41-simplified-home-page)
-    - [**4.2 Easy Upload Interface**](#42-easy-upload-interface)
+    - [**4.1 Simplified Main Window**](#41-simplified-main-window)
+    - [**4.2 Easy File Selection Interface**](#42-easy-file-selection-interface)
     - [**4.3 Processing Status View**](#43-processing-status-view)
-    - [**4.4 Download Page**](#44-download-page)
-    - [**4.5 Accessibility of the Tool Itself**](#45-accessibility-of-the-tool-itself)
+    - [**4.4 Save File Dialog**](#44-save-file-dialog)
+    - [**4.5 Accessibility of the App Itself**](#45-accessibility-of-the-app-itself)
   - [**5. Non-Functional Requirements**](#5-non-functional-requirements)
     - [**5.1 Performance**](#51-performance)
     - [**5.2 Security \& Privacy**](#52-security--privacy)
     - [**5.3 Reliability**](#53-reliability)
     - [**5.4 Compatibility**](#54-compatibility)
+    - [**5.5 Installation \& Updates**](#55-installation--updates)
   - [**6. Compliance Standards**](#6-compliance-standards)
     - [**6.1 Supported WCAG Guidelines**](#61-supported-wcag-guidelines)
     - [**6.2 PDF/UA Compliance**](#62-pdfua-compliance)
@@ -50,16 +51,17 @@
 
 ## **1. Introduction**
 ### **1.1 Purpose**
-The **PDF Accessibility Tool** is designed to help people with disabilities, particularly those with visual impairments, access information in PDF documents. Many PDF files are not created with accessibility in mind, making them difficult or impossible to use with screen readers and other assistive technologies. This tool provides a simple, one-step solution to transform inaccessible PDFs into accessible versions that work well with assistive technologies.
+The **PDF Accessibility Tool** is designed to help people with disabilities, particularly those with visual impairments, access information in PDF documents. Many PDF files are not created with accessibility in mind, making them difficult or impossible to use with screen readers and other assistive technologies. This desktop application provides a simple, one-step solution to transform inaccessible PDFs into accessible versions that work well with assistive technologies.
 
 ### **1.2 Scope**
 The **PDF Accessibility Tool** will focus on the following:
-- Providing a **simple, user-friendly interface** for uploading PDFs
+- Providing a **simple, user-friendly desktop interface** for selecting PDFs
 - **Automatically analyzing** PDFs for accessibility issues
 - **Creating fixed versions** of PDFs that are compatible with screen readers and other assistive technologies
 - Making the entire process **quick and effortless** for users with disabilities
+- Working **offline** without requiring an internet connection
 
-The tool will handle the technical complexities internally, requiring no technical knowledge from users. The user simply uploads a PDF and receives an accessible version in return.
+The tool will handle the technical complexities internally, requiring no technical knowledge from users. The user simply selects a PDF and receives an accessible version in return.
 
 ### **1.3 Intended Audience**
 This tool is specifically designed for:
@@ -88,6 +90,7 @@ The primary goals of the PDF Accessibility Tool are to:
 3. Automatically fix common accessibility problems in PDFs
 4. Deliver high-quality accessible documents that work well with assistive technologies
 5. Help people with disabilities gain independent access to information
+6. Provide a solution that works offline without requiring internet connectivity
 
 ---
 
@@ -109,7 +112,7 @@ The primary goals of the PDF Accessibility Tool are to:
 - Images lack descriptions
 - Cannot determine if a PDF will be readable before investing time
 
-**Usage Scenario**: Robert receives a PDF report from his insurance company. Before attempting to read it with his screen reader, he uploads it to the PDF Accessibility Tool and downloads the fixed version, which his screen reader can properly navigate.
+**Usage Scenario**: Robert receives a PDF report from his insurance company. Before attempting to read it with his screen reader, he opens the PDF Accessibility Tool app, selects the file, and saves the fixed version, which his screen reader can properly navigate.
 
 ### **2.2 Caregiver or Assistant**
 **Name**: Maria Garcia  
@@ -127,7 +130,7 @@ The primary goals of the PDF Accessibility Tool are to:
 - Handles a high volume of documents
 - Has many other responsibilities beyond document conversion
 
-**Usage Scenario**: Maria receives several PDF attachments for an upcoming meeting. She needs to ensure they're all accessible for her visually impaired employer. She uses the tool to quickly convert them all before the meeting.
+**Usage Scenario**: Maria receives several PDF attachments for an upcoming meeting. She needs to ensure they're all accessible for her visually impaired employer. She uses the desktop app to quickly convert them all before the meeting without needing internet access.
 
 ### **2.3 Accessibility Advocate**
 **Name**: Jamal Washington  
@@ -145,7 +148,7 @@ The primary goals of the PDF Accessibility Tool are to:
 - Needing solutions that are free or low-cost
 - Helping people with varying levels of technical ability
 
-**Usage Scenario**: Jamal runs a weekly workshop helping people with disabilities access online resources. He demonstrates the PDF Accessibility Tool as an easy way for participants to make documents accessible.
+**Usage Scenario**: Jamal runs a weekly workshop helping people with disabilities access online resources. He installs the PDF Accessibility Tool on the center's computers and demonstrates it as an easy way for participants to make documents accessible.
 
 ### **2.4 Educational Support Staff**
 **Name**: Lisa Peterson  
@@ -163,7 +166,7 @@ The primary goals of the PDF Accessibility Tool are to:
 - Varying document quality from different instructors
 - Limited staff resources
 
-**Usage Scenario**: Lisa receives textbook chapters and handouts from professors that need to be made accessible for students with visual impairments. She uses the tool to quickly process these documents before classes begin.
+**Usage Scenario**: Lisa receives textbook chapters and handouts from professors that need to be made accessible for students with visual impairments. She uses the desktop application to quickly process these documents before classes begin, even when working remotely with limited internet access.
 
 ### **2.5 Senior with Declining Vision**
 **Name**: Eleanor Johnson  
@@ -180,23 +183,24 @@ The primary goals of the PDF Accessibility Tool are to:
 - Limited comfort with technology
 - Needs very simple interfaces
 - Gets frustrated with complicated processes
+- Limited or unreliable internet access
 
-**Usage Scenario**: Eleanor receives a PDF newsletter from her retirement community that she cannot read comfortably. She uses the PDF Accessibility Tool to create a version she can either magnify better or have read aloud to her.
+**Usage Scenario**: Eleanor receives a PDF newsletter from her retirement community that she cannot read comfortably. She uses the PDF Accessibility Tool desktop app to create a version she can either magnify better or have read aloud to her, without needing to go online.
 
 ---
 
 ## **3. Functional Requirements**
 ### **3.1 Core Functionalities**
-#### **3.1.1 Simple PDF Upload**
-The tool will provide:
-- A prominent, easy-to-find upload button
-- Simple drag-and-drop functionality
-- Clear file size limitations (up to 25MB per file)
-- Support for all common PDF versions
-- Immediate feedback on upload success or failure
+#### **3.1.1 Simple PDF Selection**
+The app will provide:
+- A prominent, easy-to-find "Select PDF" button
+- Integration with the operating system's file browser
+- Simple drag-and-drop functionality into the app window
+- Clear file size limitations and supported formats
+- Immediate feedback on file selection success or failure
 - Clear error messages in plain language
-- No account creation required for basic use
-- Optional email entry to receive the fixed document
+- Recent files list for quick access to frequently processed documents
+- Ability to process files directly from context menu (right-click integration)
 
 #### **3.1.2 Automated Accessibility Analysis**
 The system will automatically:
@@ -208,36 +212,39 @@ The system will automatically:
 - Check for color contrast issues
 - Verify document language specification
 - Handle all analysis behind the scenes without user involvement
+- Provide optional detailed report for advanced users
 
 #### **3.1.3 One-Click PDF Remediation**
 The system will automatically:
 - Apply all necessary fixes without requiring user decisions
-- Generate alternative text for images using AI
+- Generate alternative text for images using built-in AI
 - Create proper document structure and tags
 - Fix reading order issues
 - Enhance form field accessibility
 - Optimize for screen reader compatibility
 - Complete the process without requiring technical input
 - Preserve the visual appearance of the document
+- Process files locally without sending data over the internet
 
-#### **3.1.4 Fixed Version Download**
+#### **3.1.4 Fixed Version Saving**
 Users will be able to:
-- Download the fixed PDF immediately after processing
+- Save the fixed PDF to their chosen location
 - Receive clear confirmation of successful conversion
-- Optionally receive the fixed document via email
 - Access simple instructions for using the fixed document
-- Download the file with a clear, descriptive filename
-- Have the option to delete the files from the server
+- Have suggested filenames with clear, descriptive conventions
+- Batch process multiple files with automatic naming
+- Option to automatically open the fixed PDF after saving
 
 ### **3.2 Accessibility Improvements**
 #### **3.2.1 Alternative Text for Images**
 The tool will:
 - Identify all images in the document
-- Generate descriptive alternative text using AI
+- Generate descriptive alternative text using built-in AI
 - Ensure descriptions are relevant to the document context
 - Handle decorative images appropriately
 - Provide descriptions for charts and graphs
 - Create text alternatives for any text embedded in images
+- Allow manual editing of generated alt-text for advanced users
 
 #### **3.2.2 Document Structure Enhancement**
 The system will:
@@ -247,6 +254,7 @@ The system will:
 - Properly mark footnotes and references
 - Create accessible bookmarks for navigation
 - Ensure the document has a proper title
+- Fix document metadata for better identification
 
 #### **3.2.3 Reading Order Correction**
 The tool will:
@@ -256,6 +264,7 @@ The tool will:
 - Fix tables to read in the correct order (row by row)
 - Ensure headers are associated with their content
 - Fix any content that would be read out of context
+- Provide optional reading order preview for advanced users
 
 #### **3.2.4 Text Readability Improvement**
 The system will:
@@ -265,6 +274,7 @@ The system will:
 - Check and optimize color contrast
 - Ensure hyperlinks are properly identified
 - Make sure font information is available to assistive technology
+- Repair poorly encoded text characters
 
 #### **3.2.5 Form Field Accessibility**
 For PDFs with forms, the tool will:
@@ -273,29 +283,33 @@ For PDFs with forms, the tool will:
 - Ensure instructions are associated with fields
 - Mark required fields appropriately
 - Make sure form submission buttons are accessible
+- Ensure form field states are announced by screen readers
 
 ---
 
 ## **4. User Interface Requirements**
-### **4.1 Simplified Home Page**
-The home page will feature:
+### **4.1 Simplified Main Window**
+The main application window will feature:
 - Clear explanation of the tool's purpose in simple language
-- Prominent upload button as the primary action
+- Prominent "Select PDF" button as the primary action
 - Minimal distractions or unnecessary options
 - Brief instructions written at an elementary reading level
 - Accessible design with high contrast and clear fonts
-- Language that emphasizes simplicity (e.g., "Just upload and we'll fix it")
-- Optional links to more information for those who want it
+- Language that emphasizes simplicity (e.g., "Just select a file and we'll fix it")
+- Option to minimize to system tray for quick access
+- Simple settings accessible via a clearly marked button
 
-### **4.2 Easy Upload Interface**
-The upload interface will include:
-- Large, obvious drop zone for files
+### **4.2 Easy File Selection Interface**
+The file selection interface will include:
+- Integration with native file browsers for familiarity
+- Large, obvious drop zone for files within the app
 - Clear messaging about accepted file types and sizes
-- Simple progress indicator during upload
+- Simple progress indicator during file loading
 - Friendly error messages in plain language
 - No technical jargon or complex options
 - Ability to select multiple files if needed
-- Clear next steps after successful upload
+- Clear next steps after successful file selection
+- Recent files list for quick access
 
 ### **4.3 Processing Status View**
 The processing status will show:
@@ -305,22 +319,29 @@ The processing status will show:
 - Engaging but not distracting visuals during wait time
 - Error recovery options if processing fails
 - No technical details unless specifically requested
+- Option to cancel processing if needed
 
-### **4.4 Download Page**
-The download page will feature:
-- Prominent download button for the fixed document
+### **4.4 Save File Dialog**
+The save file dialog will feature:
+- Integration with native save dialogs for familiarity
+- Smart default save location (same folder as original by default)
+- Intelligent filename suggestion (e.g., adding "_accessible" suffix)
+- Option to automatically overwrite or create new files
+- Batch saving options for multiple files
 - Simple confirmation message about successful conversion
 - Option to process another document
 - Simple feedback mechanism (thumbs up/down)
 
-### **4.5 Accessibility of the Tool Itself**
-The tool's interface will be fully accessible:
+### **4.5 Accessibility of the App Itself**
+The app's interface will be fully accessible:
 - Screen reader compatible
 - Keyboard navigable without requiring mouse input
 - High contrast mode and resizable text
 - Simple, consistent layout and navigation
 - Clear focus indicators for keyboard users
 - Minimal steps to complete the core task
+- Compatible with OS accessibility settings
+- Support for system-wide keyboard shortcuts
 
 ---
 
@@ -331,32 +352,43 @@ The tool's interface will be fully accessible:
 - Responsiveness: Interface should remain responsive during processing
 - Progress updates: Regular updates on conversion progress
 - Timeout handling: Clear messaging if processing takes too long
-- Graceful degradation: Basic functionality should work even on slower connections
+- Efficient resource usage: Minimal CPU and memory consumption
+- Background processing option: Allow app to work in background
 
 ### **5.2 Security & Privacy**
-- Document privacy: Files processed should not be accessible to other users
-- Minimal data collection: Only collect information necessary for the service
-- Automatic deletion: Documents deleted from servers after 24 hours
-- Secure transmission: All uploads and downloads via HTTPS
-- No account requirement: Basic functionality available without registration
-- Clear privacy policy: Written in plain language
+- Document privacy: All processing happens locally on the user's device
+- No data transmission: Documents never leave the user's computer
+- Minimal data collection: No usage statistics unless explicitly opted in
+- No network requirement: Fully functional offline
+- Clear privacy policy: Written in plain language and accessible from the app
+- No unnecessary permissions: App requires only file system access
+
 ### **5.3 Reliability**
-- Uptime: Service available 99.5% of the time excluding scheduled maintenance
+- Crash recovery: Ability to resume after unexpected shutdowns
 - Error handling: Clear messages for any failures
 - Fallback options: Alternative processing paths if primary method fails
 - Consistent results: Same document should yield similar accessibility improvements on repeated attempts
-- File validation: Thorough checking of uploaded files before processing
-- Recovery mechanisms: Ability to restart after interruptions
-- Browser compatibility: Works across all major browsers and devices
+- File validation: Thorough checking of selected files before processing
+- Auto-save options: Prevent work loss during processing
+- Logging: Optional diagnostic information for troubleshooting
 
 ### **5.4 Compatibility**
+- Operating systems: Windows 10/11, macOS 10.14+, major Linux distributions
 - Screen readers: Compatibility with JAWS, NVDA, VoiceOver, and other major screen readers
 - PDF readers: Fixed PDFs work with Adobe Reader, PDF.js, and other common readers
-- Mobile support: Functions on tablets and smartphones
-- Operating systems: Works on Windows, MacOS, iOS, Android, and Linux
 - Assistive technologies: Compatible with switch devices, screen magnifiers, and other assistive tools
-- Low bandwidth: Basic functionality works on slower connections
-- Older devices: Functions on devices up to 5 years old
+- Low-spec hardware: Works on computers with limited resources
+- File formats: Handles PDF 1.3 through 2.0 files
+- Languages: Interface available in multiple languages
+
+### **5.5 Installation & Updates**
+- Easy installation: Simple installer requiring minimal technical knowledge
+- Portable option: Version that doesn't require installation (run from USB drive)
+- Silent installation: Option for enterprise deployment
+- Auto-update: Optional automatic updates with clear notifications
+- Update control: Options to disable or delay updates
+- Small footprint: Minimal disk space requirements
+- Clean uninstallation: Complete removal of all components when uninstalled
 
 ---
 
@@ -395,12 +427,12 @@ The tool will ensure fixed PDFs meet Section 508 requirements:
 ## **7. Appendix**
 ### **7.1 Sample User Workflow**
 **Simplified Document Accessibility Workflow**:
-1. User visits the PDF Accessibility Tool website
-2. User clicks "Upload PDF" button or drags a file onto the page
-3. System displays an upload progress indicator
+1. User launches the PDF Accessibility Tool application
+2. User clicks "Select PDF" button or drags a file onto the application window
+3. System displays a processing progress indicator
 4. System automatically processes the document (analyzes and fixes issues)
-5. System displays a "Your accessible document is ready" message with a download button
-6. User downloads the fixed PDF document
+5. System displays a "Your accessible document is ready" message with a save button
+6. User selects a location to save the fixed PDF document
 7. User can immediately use the fixed document with their screen reader or other assistive technology
 
 ### **7.2 Accessibility Standards References**
