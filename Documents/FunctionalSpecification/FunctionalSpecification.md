@@ -1,6 +1,10 @@
 # 📄 Functional Specification: PDF Accessibility Tool 
 
 ## **Table of Contents**
+
+<details>
+<summary>Click to expand</summary>
+
 - [📄 Functional Specification: PDF Accessibility Tool](#-functional-specification-pdf-accessibility-tool)
   - [**Table of Contents**](#table-of-contents)
   - [**1. Introduction**](#1-introduction)
@@ -46,6 +50,9 @@
   - [**7. Appendix**](#7-appendix)
     - [**7.1 Sample User Workflow**](#71-sample-user-workflow)
     - [**7.2 Accessibility Standards References**](#72-accessibility-standards-references)
+
+</details>
+
 
 ---
 
