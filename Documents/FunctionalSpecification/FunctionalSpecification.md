@@ -348,7 +348,6 @@ The app's interface will be fully accessible:
 ## **5. Non-Functional Requirements**
 ### **5.1 Performance**
 - Processing time: Most documents under 10MB should be processed within 30 seconds
-- Multiple file handling: Up to 5 files can be queued at once
 - Responsiveness: Interface should remain responsive during processing
 - Progress updates: Regular updates on conversion progress
 - Timeout handling: Clear messaging if processing takes too long
@@ -359,14 +358,10 @@ The app's interface will be fully accessible:
 - Document privacy: All processing happens locally on the user's device
 - No data transmission: Documents never leave the user's computer
 - Minimal data collection: No usage statistics unless explicitly opted in
-- No network requirement: Fully functional offline
 - Clear privacy policy: Written in plain language and accessible from the app
-- No unnecessary permissions: App requires only file system access
 
 ### **5.3 Reliability**
-- Crash recovery: Ability to resume after unexpected shutdowns
 - Error handling: Clear messages for any failures
-- Fallback options: Alternative processing paths if primary method fails
 - Consistent results: Same document should yield similar accessibility improvements on repeated attempts
 - File validation: Thorough checking of selected files before processing
 - Auto-save options: Prevent work loss during processing
@@ -378,16 +373,12 @@ The app's interface will be fully accessible:
 - PDF readers: Fixed PDFs work with Adobe Reader, PDF.js, and other common readers
 - Assistive technologies: Compatible with switch devices, screen magnifiers, and other assistive tools
 - Low-spec hardware: Works on computers with limited resources
-- File formats: Handles PDF 1.3 through 2.0 files
 - Languages: Interface available in multiple languages
 
 ### **5.5 Installation & Updates**
 - Easy installation: Simple installer requiring minimal technical knowledge
-- Portable option: Version that doesn't require installation (run from USB drive)
-- Silent installation: Option for enterprise deployment
 - Auto-update: Optional automatic updates with clear notifications
 - Update control: Options to disable or delay updates
-- Small footprint: Minimal disk space requirements
 - Clean uninstallation: Complete removal of all components when uninstalled
 
 ---
