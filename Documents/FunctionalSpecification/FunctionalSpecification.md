@@ -66,7 +66,9 @@ The **PDF Accessibility Tool** will focus on the following:
 - **Automatically analyzing** PDFs for accessibility issues
 - **Creating fixed versions** of PDFs that are compatible with screen readers and other assistive technologies
 - Making the entire process **quick and effortless** for users with disabilities
-- Working **offline** without requiring an internet connection
+- Working offline as a **standalone desktop application** without requiring an internet connection
+- Installation as a complete, **self-contained package** that doesn't require additional software
+
 
 The tool will handle the technical complexities internally, requiring no technical knowledge from users. The user simply selects a PDF and receives an accessible version in return.
 
@@ -362,7 +364,7 @@ The app's interface will be fully accessible:
 - Background processing option: Allow app to work in background
 
 ### **5.2 Security & Privacy**
-- Document privacy: All processing happens locally on the user's device
+- Document privacy: All processing happens locally on the user's device with no external dependencies
 - No data transmission: Documents never leave the user's computer
 - Minimal data collection: No usage statistics unless explicitly opted in
 - Clear privacy policy: Written in plain language and accessible from the app
@@ -381,9 +383,11 @@ The app's interface will be fully accessible:
 - Assistive technologies: Compatible with switch devices, screen magnifiers, and other assistive tools
 - Low-spec hardware: Works on computers with limited resources
 - Languages: Interface available in multiple languages
+- Self-contained: All necessary libraries and dependencies are included in the installation package
+- No additional software required: Functions without needing other PDF tools or converters
 
 ### **5.5 Installation & Updates**
-- Easy installation: Simple installer requiring minimal technical knowledge
+- Single package installation: Complete installation from one package with all components included
 - Auto-update: Optional automatic updates with clear notifications
 - Update control: Options to disable or delay updates
 - Clean uninstallation: Complete removal of all components when uninstalled
