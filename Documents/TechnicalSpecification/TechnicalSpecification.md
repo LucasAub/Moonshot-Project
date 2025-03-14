@@ -213,23 +213,6 @@ Since BLIP image captioning requires internet connectivity, a comprehensive fall
 
 1. **Connectivity Detection:** The system automatically checks internet availability before attempting to use BLIP services.
 2. **Local Model Option:** A lightweight, pre-trained version of BLIP is included with the installation to provide basic captioning capabilities without internet access.
-3. **Image Classification System:** When neither online nor local AI models are available, the system uses OpenCV-based image analysis to:
-
-   - Classify images into categories (photos, charts, graphs, icons, etc.)
-   - Detect dominant colors and visual characteristics
-   - Identify basic structural elements like tables, axes, and data points
-
-
-4. **Template-Based Captions:** For each image type, the system applies appropriate templates to generate informative alternative text, such as:
-
-   - Photos: 'Image showing [description based on visual properties]'
-   - Charts: 'Chart displaying data about [identified elements]'
-   - Graphs: 'Graph showing relationship between [identified axes]'
-
-
-5. **User Override:** The interface always allows users to manually edit AI-generated captions, ensuring that even in offline scenarios, accurate descriptions can be provided.
-
-The application settings allow users to configure their preferred fallback behavior, choosing whether to use local models, templates, or simply leave placeholders for manual completion.
 
 ## 3. Data Flow
 
@@ -991,8 +974,6 @@ The system specifically handles PDF-related issues including:
 - Font embedding issues
 - OCR processing failures
 - Permission and access problems
-
-All errors are recorded with timestamps and contextual information, making troubleshooting more efficient for both users and support personnel.
 
 ## 10. Implementation Timeline
 
