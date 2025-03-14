@@ -1,0 +1,7 @@
+tkinterdnd2
+pytesseract
+Pillow
+PyMuPDF
+pikepdf
+pdfplumber
+pdfminer.six
