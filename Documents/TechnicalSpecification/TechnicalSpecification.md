@@ -43,12 +43,13 @@
   - [8. Security Considerations](#8-security-considerations)
     - [8.1 File Security](#81-file-security)
     - [8.2 Privacy Protections](#82-privacy-protections)
-  - [9. Implementation Timeline](#9-implementation-timeline)
-    - [9.1 Development Phases](#91-development-phases)
-    - [9.2 Milestones](#92-milestones)
-  - [10. Appendix](#10-appendix)
-    - [10.1 API References](#101-api-references)
-    - [10.2 Code Examples](#102-code-examples)
+  - [9 Error Handling and Logging](#9-error-handling-and-logging)
+  - [10. Implementation Timeline](#10-implementation-timeline)
+    - [10.1 Development Phases](#101-development-phases)
+    - [10.2 Milestones](#102-milestones)
+  - [11. Appendix](#11-appendix)
+    - [11.1 API References](#111-api-references)
+    - [11.2 Code Examples](#112-code-examples)
 
 ## 1. System Architecture
 
@@ -184,6 +185,16 @@ For scanned or image-based PDFs, Tesseract OCR will:
 - Process multi-column layouts appropriately
 - Handle different languages based on document settings
 
+**OCR Triggering Criteria:**
+
+The PDF Accessibility Tool automatically determines when OCR is necessary using three key thresholds:
+
+1. **Text Coverage Threshold (10%):** OCR is triggered when less than 10% of the document contains machine-readable text, suggesting the document might be image-based.
+2. **Image-to-Text Ratio (60%):** If images occupy more than 60% of the document's content area, OCR is initiated to ensure any text within images is captured.
+3. **Character Density (100 characters/page):** Documents with fewer than 100 characters per page on average trigger OCR, as this indicates potential text embedded in images.
+
+The system performs this analysis during the document inspection phase and logs the decision criteria to provide transparency about why OCR was or wasn't initiated. Users can also manually override this decision through the UI if necessary.
+
 ### 2.6 Image Caption Generation (BLIP)
 
 The BLIP component for image captioning:
@@ -195,6 +206,30 @@ The BLIP component for image captioning:
 - Processes image data securely with user consent
 
 **Note:** All image data sent for processing is transmitted securely and not stored permanently on external servers.
+
+**Offline Operation and Fallback Mechanisms:**
+
+Since BLIP image captioning requires internet connectivity, a comprehensive fallback strategy is implemented:
+
+1. **Connectivity Detection:** The system automatically checks internet availability before attempting to use BLIP services.
+2. **Local Model Option:** A lightweight, pre-trained version of BLIP is included with the installation to provide basic captioning capabilities without internet access.
+3. **Image Classification System:** When neither online nor local AI models are available, the system uses OpenCV-based image analysis to:
+
+   - Classify images into categories (photos, charts, graphs, icons, etc.)
+   - Detect dominant colors and visual characteristics
+   - Identify basic structural elements like tables, axes, and data points
+
+
+4. **Template-Based Captions:** For each image type, the system applies appropriate templates to generate informative alternative text, such as:
+
+   - Photos: 'Image showing [description based on visual properties]'
+   - Charts: 'Chart displaying data about [identified elements]'
+   - Graphs: 'Graph showing relationship between [identified axes]'
+
+
+5. **User Override:** The interface always allows users to manually edit AI-generated captions, ensuring that even in offline scenarios, accurate descriptions can be provided.
+
+The application settings allow users to configure their preferred fallback behavior, choosing whether to use local models, templates, or simply leave placeholders for manual completion.
 
 ## 3. Data Flow
 
@@ -935,9 +970,33 @@ pythonCopyclass PrivacyManager:
 - Local storage of all settings and preferences
 - Option to use application in completely offline mode
 
-## 9. Implementation Timeline
+## 9 Error Handling and Logging
 
-### 9.1 Development Phases
+**Error Management System**
+
+The application implements a robust error handling and logging system to ensure reliability and provide clear user feedback:
+
+1. **Centralized Error Management:** A dedicated ErrorHandler class coordinates all error and exception handling, ensuring consistent behavior across the application.
+2. **Multi-level Logging:** The system maintains detailed logs at different severity levels (INFO, WARNING, ERROR, CRITICAL) stored in user-accessible log files in a designated directory.
+3. **Contextual Error Messages:** Each error includes information about where it occurred and potential solutions, making it easier for users to address issues.
+4. **User Notifications:** A UI-integrated system displays appropriate error messages to users, with severity-based styling and actionable suggestions.
+5. **Error Recovery:** Where possible, the system attempts to continue processing despite non-critical errors, with clear documentation of what succeeded and what failed.
+
+**Handled Error Scenarios**
+The system specifically handles PDF-related issues including:
+
+- Missing or corrupted files
+- Password-protected PDFs
+- Invalid PDF structure
+- Font embedding issues
+- OCR processing failures
+- Permission and access problems
+
+All errors are recorded with timestamps and contextual information, making troubleshooting more efficient for both users and support personnel.
+
+## 10. Implementation Timeline
+
+### 10.1 Development Phases
 
 Suggested implementation phases:
 
@@ -970,7 +1029,7 @@ Suggested implementation phases:
 - Packaging with PyInstaller
 - Creation of installation packages for all platforms
 
-### 9.2 Milestones
+### 10.2 Milestones
 
 **Milestone 1: Proof of Concept**
 
@@ -1009,9 +1068,9 @@ Suggested implementation phases:
 - All critical accessibility issues resolved
 - Final performance benchmarks met
 
-## 10. Appendix
+## 11. Appendix
 
-### 10.1 API References
+### 11.1 API References
 
 **pikepdf API Reference**: Important functions and methods for PDF remediation:
 
@@ -1117,7 +1176,7 @@ def run_axe_analysis(html_content):
     return result
 ```
 
-### 10.2 Code Examples
+### 11.2 Code Examples
 
 **Complete PDF Processing Pipeline Example**:
 
