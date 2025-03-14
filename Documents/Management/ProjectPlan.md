@@ -31,17 +31,17 @@ This document outlines the detailed project plan, including key tasks and deadli
   - [x] Set up columns for backlog, in progress, review, and done
   - [x] Add initial project tasks
 
-- [ ] Write **Functional Specifications** **(Mar 5 - Mar 12)**
-  - [ ] Define expected inputs and outputs
-  - [ ] Describe workflow for analyzing PDFs
-  - [ ] Specify user interface behavior
-  - [ ] Document user roles and permissions
+- [x] Write **Functional Specifications** **(Mar 5 - Mar 12)**
+  - [x] Define expected inputs and outputs
+  - [x] Describe workflow for analyzing PDFs
+  - [x] Specify user interface behavior
+  - [x] Document user roles and permissions
 
-- [ ] Write **Technical Specifications (Architecture, APIs, Libraries used)** **(Mar 13 - Mar 20)**
-  - [ ] Define system architecture
-  - [ ] List required APIs and libraries
-  - [ ] Create initial database schema (if needed)
-  - [ ] Document key algorithms for accessibility verification
+- [x] Write **Technical Specifications (Architecture, APIs, Libraries used)** **(Mar 13 - Mar 20)**
+  - [x] Define system architecture
+  - [x] List required APIs and libraries
+  - [x] Create initial database schema (if needed)
+  - [x] Document key algorithms for accessibility verification
 
 ### **Phase 2: Core Development (Mar 21 – Apr 30, 2025)**
 
