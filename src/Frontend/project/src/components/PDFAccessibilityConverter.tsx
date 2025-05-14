@@ -30,53 +30,30 @@ const PDFAccessibilityConverter: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!file) {
-      setErrorMessage('Veuillez sélectionner un fichier PDF');
-      announceMessage('Erreur : Veuillez sélectionner un fichier PDF', 'assertive');
-      return;
-    }
-
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!file) return
+  
+    setStatus("uploading")
+    const form = new FormData()
+    form.append("pdfFile", file)
+  
     try {
-      setStatus('uploading');
-      announceMessage('Envoi du fichier en cours...', 'polite');
-
-      // Create form data for file upload
-      const formData = new FormData();
-      formData.append('pdfFile', file);
-
-      // In a real application, you would send this to your backend
-      // For this example, we'll simulate the process
-      setStatus('processing');
-      announceMessage('Traitement du document en cours...', 'polite');
-
-      // Simulate processing delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // Simulate successful conversion
-      // In a real app, this would come from your backend response
-      setStatus('success');
-      
-      // Mock URL for the converted document
-      // In a real app, this would be from the backend response
-      const mockConvertedUrl = URL.createObjectURL(new Blob(
-        [`<html><body><h1>${file.name} - Version accessible</h1><p>Ceci est un exemple de contenu converti.</p></body></html>`], 
-        { type: 'text/html' }
-      ));
-      
-      setConvertedDocUrl(mockConvertedUrl);
-      setPreviewHtml(`<h1>${file.name} - Version accessible</h1><p>Ceci est un exemple de contenu converti.</p>`);
-      
-      announceMessage('Conversion réussie. Le document accessible est prêt à être téléchargé.', 'polite');
-    } catch (error) {
-      setStatus('error');
-      setErrorMessage('Une erreur est survenue pendant la conversion');
-      announceMessage('Erreur : La conversion a échoué', 'assertive');
-      console.error('Conversion error:', error);
+      const res = await fetch("http://localhost:8000/convert", {
+        method: "POST",
+        body: form,
+      })
+      if (!res.ok) throw new Error(await res.text())
+      const html = await res.text()
+      setPreviewHtml(html)
+      const blob = new Blob([html], { type: "text/html" })
+      setConvertedDocUrl(URL.createObjectURL(blob))
+      setStatus("success")
+    } catch (err) {
+      setStatus("error")
+      setErrorMessage((err as Error).message)
     }
-  };
+  }
 
   const resetForm = () => {
     if (formRef.current) {
