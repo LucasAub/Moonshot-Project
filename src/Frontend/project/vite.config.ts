@@ -4,9 +4,15 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Remove optimizeDeps exclusion to ensure proper dependency handling
   server: {
     open: true, // Open browser on server start
-    port: 5173  // Use a specific port
+    port: 5173, // Use a specific port
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   }
 });

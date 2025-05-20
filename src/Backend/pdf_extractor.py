@@ -3,7 +3,15 @@ from PIL import Image
 import pytesseract
 import uuid
 import re
-from io import BytesIO
+f            # Cleaning non-breaking spaces and converting bullet characters to standard bullet
+            content = content.replace('\u2022', '•').replace('\uf0b7', '•')
+            # Handling lists
+            if '•' in content:
+                items = [itm.strip(' ;:') for itm in content.split('•') if itm.strip()]
+                html_output.append("<ul>")
+                for itm in items:
+                    html_output.append(f"<li>{itm}</li>")
+                html_output.append("</ul>")port BytesIO
 import camelot
 
 pdf_path = input("Entrez le chemin du fichier PDF : ")
