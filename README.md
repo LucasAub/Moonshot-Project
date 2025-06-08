@@ -30,18 +30,25 @@ During conversion, the system applies multiple accessibility rules:
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Linting**: ESLint + TypeScript ESLint
+- **Backend**: Python
 
 ## 📦 Installation
 
+Please install the requierements before using the app
+
 ```
-git clone https://github.com/yourusername/pdf-accessibility-converter.git
-cd pdf-accessibility-converter
-npm install
+git clone https://github.com/LucasAub/Moonshot-Project
+cd src
+cd Backend
+python server.py
+
 ```
 
 ## 🚀 Development
 
 ```
+cd Frontend/project
+npm install
 npm run dev
 ```
 
@@ -57,32 +64,16 @@ npm run build
 npm run preview
 ```
 
-## 🧪 Folder Structure
-
-```
-src/
-├── components/         # UI Components (Header, Footer, FileUpload, etc.)
-├── hooks/              # Custom React hooks (conversion logic)
-├── utils/              # Utility functions (e.g. API handler)
-├── types/              # TypeScript type definitions
-├── App.tsx             # Main application entry
-├── main.tsx            # Root React render
-```
-
 ## 📄 Output
 
 The app returns a **clean HTML file** designed for screen reader compatibility. It can be used as a base for accessible publishing or further manual refinement.
 
 ## 📚 Educational Context
 
-This project was developed as part of an academic assignment to explore real-world accessibility challenges and implement technical solutions using modern web tools. It aims to bridge the gap between common PDF formatting and web accessibility standards.
+This project was developed as part of an academic assignment to explore real-world accessibility challenges and implement technical solutions using modern tools.
 
 ## 📄 License
 
-This project is open-source and free to use.
+This project is under MIT liscence
 
 ---
-
-## 🙌 Contributing
-
-Feel free to open issues or submit pull requests for suggestions or improvements.
