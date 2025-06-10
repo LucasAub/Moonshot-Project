@@ -12,7 +12,7 @@ export const AppHeader: React.FC = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-center">
         <FileText className="text-blue-600 mr-2" size={24} aria-hidden="true" />
-        <span className="text-xl font-semibold text-gray-800">A11y PDF Converter</span>
+        <span className="text-xl font-semibold text-gray-800">PDF To Accessible HTML Converter</span>
       </div>
     </motion.header>
   );
