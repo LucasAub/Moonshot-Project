@@ -34,7 +34,7 @@ Write-Host "Setup complete!" -ForegroundColor Green
 Write-Host ""
 Write-Host "To run the server:" -ForegroundColor Cyan
 Write-Host "1. Activate virtual environment: venv\Scripts\Activate.ps1" -ForegroundColor White
-Write-Host "2. Run server: python src\Backend\server.py" -ForegroundColor White
+Write-Host "2. Run server: python src\Backend\server_enhanced.py" -ForegroundColor White
 Write-Host ""
 Write-Host "The server will be available at: http://localhost:8000" -ForegroundColor Yellow
 Write-Host "Frontend should be at: http://localhost:5173" -ForegroundColor Yellow

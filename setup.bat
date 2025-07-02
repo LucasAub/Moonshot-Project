@@ -32,7 +32,7 @@ echo Setup complete!
 echo.
 echo To run the server:
 echo 1. Activate virtual environment: venv\Scripts\activate.bat
-echo 2. Run server: python src\Backend\server.py
+echo 2. Run server: python src\Backend\server_enhanced.py
 echo.
 echo The server will be available at: http://localhost:8000
 echo Frontend should be at: http://localhost:5173

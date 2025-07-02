@@ -16,8 +16,8 @@ Write-Host "Activating virtual environment..." -ForegroundColor Yellow
 Set-Location -Path "src\Backend"
 
 # Run the server
-Write-Host "Starting server on http://localhost:8000..." -ForegroundColor Green
+Write-Host "Starting enhanced server on http://localhost:8000..." -ForegroundColor Green
 Write-Host "Press Ctrl+C to stop the server" -ForegroundColor Yellow
 Write-Host ""
 
-python server.py
+python server_enhanced.py
