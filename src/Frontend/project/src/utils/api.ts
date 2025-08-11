@@ -19,14 +19,37 @@ export const convertPdfToHtml = async (file: File): Promise<ConversionResult> =>
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to convert file');
+      let errorMessage = 'Failed to convert file';
+      
+      try {
+        // Essayer de parser la réponse comme JSON
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const error = await response.json();
+          errorMessage = error.detail || error.message || errorMessage;
+        } else {
+          // Si ce n'est pas du JSON, lire comme texte
+          const textError = await response.text();
+          errorMessage = textError || `Erreur HTTP ${response.status}`;
+        }
+      } catch (parseError) {
+        // Si même la lecture en texte échoue
+        errorMessage = `Erreur HTTP ${response.status}: ${response.statusText}`;
+      }
+      
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('API Error:', error);
+    
+    // Si c'est une erreur de réseau ou de connexion
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Impossible de se connecter au serveur. Assurez-vous que le serveur backend fonctionne.');
+    }
+    
     throw error instanceof Error ? error : new Error('Failed to convert PDF');
   }
 };

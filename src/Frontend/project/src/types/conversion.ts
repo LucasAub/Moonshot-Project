@@ -5,4 +5,9 @@ export interface ConversionResult {
   title?: string;
   accessibilityScore?: number;
   warnings?: string[];
+  metadata?: {
+    filename: string;
+    size: number;
+    tesseract_used: boolean;
+  };
 }
