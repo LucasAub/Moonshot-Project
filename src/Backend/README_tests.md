@@ -1,46 +1,46 @@
-# Tests Unitaires - PDF to HTML Converter
+# Unit Tests - PDF to HTML Converter
 
 ## Description
-Ce fichier contient les tests unitaires pour le serveur backend `server_enhanced.py`.
+This file contains unit tests for the backend server `server_enhanced.py`.
 
-## Tests inclus
+## Included Tests
 
-### 🔗 Tests des endpoints API
-- `test_health_endpoint()` - Vérifie que l'endpoint `/health` fonctionne
-- `test_root_endpoint()` - Vérifie que l'endpoint racine `/` fonctionne
+### 🔗 API Endpoint Tests
+- `test_health_endpoint()` - Verifies the `/health` endpoint works
+- `test_root_endpoint()` - Verifies the root endpoint `/` works
 
-### 🏷️ Tests des tags HTML
-- `test_html_tags_conversion()` - Vérifie que les tags HTML sont correctement générés
-- `test_is_big_title_function()` - Teste la détection des gros titres
+### 🏷️ HTML Tag Tests
+- `test_html_tags_conversion()` - Verifies HTML tags are correctly generated
+- `test_is_big_title_function()` - Tests big title detection
 
-### 🖼️ Tests du traitement des images
-- `test_image_processing()` - Vérifie que les images sont bien lues et converties
-- `test_safe_ocr_function()` - Teste la fonction OCR sécurisée
+### 🖼️ Image Processing Tests
+- `test_image_processing()` - Verifies images are properly read and converted
+- `test_safe_ocr_function()` - Tests the safe OCR function
 
-### 📄 Tests de validation des fichiers
-- `test_convert_endpoint_no_file()` - Test sans fichier
-- `test_convert_endpoint_wrong_file_type()` - Test avec mauvais type de fichier
-- `test_convert_endpoint_empty_file()` - Test avec fichier vide
-- `test_convert_endpoint_valid_pdf()` - Test avec PDF valide
+### 📄 File Validation Tests
+- `test_convert_endpoint_no_file()` - Test without file
+- `test_convert_endpoint_wrong_file_type()` - Test with wrong file type
+- `test_convert_endpoint_empty_file()` - Test with empty file
+- `test_convert_endpoint_valid_pdf()` - Test with valid PDF
 
-## Comment exécuter les tests
+## How to Run Tests
 
-### Méthode 1 : Script automatique
+### Method 1: Automatic Script
 ```bash
 python run_tests.py
 ```
 
-### Méthode 2 : Pytest directement
+### Method 2: Direct Pytest
 ```bash
 python -m pytest test_server.py -v
 ```
 
-### Méthode 3 : Un test spécifique
+### Method 3: Specific Test
 ```bash
 python -m pytest test_server.py::test_html_tags_conversion -v
 ```
 
-## Prérequis
+## Prerequisites
 - pytest
 - httpx
 - fastapi
@@ -48,15 +48,15 @@ python -m pytest test_server.py::test_html_tags_conversion -v
 - PIL (Pillow)
 - pytesseract
 
-## Installation des dépendances
+## Dependency Installation
 ```bash
 pip install pytest httpx
 ```
 
-## Résultats attendus
-Tous les tests doivent passer (10/10). Les tests vérifient :
-- La génération correcte des tags HTML
-- Le traitement des images avec OCR
-- La validation des fichiers d'entrée
-- Les endpoints de l'API
-- La gestion des erreurs
+## Expected Results
+All tests should pass (10/10). The tests verify:
+- Correct HTML tag generation
+- Image processing with OCR
+- Input file validation
+- API endpoints functionality
+- Error handling

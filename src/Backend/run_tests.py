@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script pour exécuter les tests unitaires du serveur PDF to HTML
+Script to run unit tests for the PDF to HTML server
 """
 
 import subprocess
@@ -8,16 +8,16 @@ import sys
 import os
 
 def run_tests():
-    """Exécute tous les tests"""
-    print("🧪 Exécution des tests unitaires...")
+    """Runs all tests"""
+    print("🧪 Running unit tests...")
     print("=" * 50)
     
-    # Changer vers le répertoire Backend
+    # Change to Backend directory
     backend_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(backend_dir)
     
     try:
-        # Exécuter pytest
+        # Run pytest
         result = subprocess.run([
             sys.executable, "-m", "pytest", 
             "test_server.py", 
@@ -26,21 +26,21 @@ def run_tests():
         ], capture_output=False)
         
         if result.returncode == 0:
-            print("\n✅ Tous les tests ont réussi !")
-            print("\nTests exécutés :")
-            print("- ✅ Endpoints API (/health, /)")
-            print("- ✅ Détection des gros titres")
-            print("- ✅ Fonction OCR sécurisée")
-            print("- ✅ Validation des fichiers")
-            print("- ✅ Conversion PDF vers HTML")
-            print("- ✅ Génération des tags HTML")
-            print("- ✅ Traitement des images")
+            print("\n✅ All tests passed!")
+            print("\nTests executed:")
+            print("- ✅ API Endpoints (/health, /)")
+            print("- ✅ Big title detection")
+            print("- ✅ Safe OCR function")
+            print("- ✅ File validation")
+            print("- ✅ PDF to HTML conversion")
+            print("- ✅ HTML tag generation")
+            print("- ✅ Image processing")
         else:
-            print("\n❌ Certains tests ont échoué")
+            print("\n❌ Some tests failed")
             return False
             
     except Exception as e:
-        print(f"\n❌ Erreur lors de l'exécution des tests: {e}")
+        print(f"\n❌ Error running tests: {e}")
         return False
     
     return True

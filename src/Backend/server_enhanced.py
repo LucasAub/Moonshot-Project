@@ -1,3 +1,9 @@
+"""
+PDF to HTML Converter Server - Enhanced Version
+FastAPI server that converts PDF files to accessible HTML format.
+See CODE_DOCUMENTATION.md for detailed architecture documentation.
+"""
+
 from fastapi import FastAPI, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -14,13 +20,13 @@ import base64
 import platform
 import subprocess
 
-
+# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Configuration Tesseract pour Windows
+# Tesseract OCR Configuration - Multi-platform setup
 if platform.system() == "Windows":
-    # Essayer de trouver Tesseract dans les emplacements communs sur Windows
+    # Check common Windows installation paths
     possible_paths = [
         r"C:\Program Files\Tesseract-OCR\tesseract.exe",
         r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
@@ -32,40 +38,43 @@ if platform.system() == "Windows":
         if os.path.exists(path):
             pytesseract.pytesseract.tesseract_cmd = path
             tesseract_found = True
-            logger.info(f"Tesseract trouvé à: {path}")
+            logger.info(f"Tesseract found at: {path}")
             break
     
     if not tesseract_found:
-        logger.warning("Tesseract non trouvé. L'OCR sera désactivé.")
+        logger.warning("Tesseract not found. OCR will be disabled.")
 else:
-    # Configuration pour macOS/Linux
+    # macOS/Linux configuration
     os.environ['TESSDATA_PREFIX'] = '/opt/homebrew/share/tessdata/'
 
-# Test de Tesseract
+# Test Tesseract availability
 tesseract_available = False
 try:
     tesseract_version = pytesseract.get_tesseract_version()
     logger.info(f"Tesseract version: {tesseract_version}")
     tesseract_available = True
 except Exception as e:
-    logger.warning(f"Tesseract non disponible: {e}")
+    logger.warning(f"Tesseract not available: {e}")
     tesseract_available = False
 
+# FastAPI Application Setup
 app = FastAPI(title="PDF to HTML Converter", version="1.0.0")
 
-# Gestionnaire d'erreurs global
+# Global exception handler - ensures all errors return valid JSON
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):
-    logger.error(f"Erreur non gérée: {exc}")
+    """Catch unhandled exceptions and return JSON responses"""
+    logger.error(f"Unhandled error: {exc}")
     return JSONResponse(
         status_code=500,
         content={
-            "detail": "Erreur interne du serveur",
+            "detail": "Internal server error",
             "error": str(exc),
             "type": "internal_server_error"
         }
     )
 
+# CORS middleware for frontend access
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -74,7 +83,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Basic CSS for HTML output to ensure readability and structure
+# CSS styles for accessible HTML output
 css = """
 <style>
 body { font-family: Arial, sans-serif; font-size: 1.1em; margin: 1.5em; color: #111; }
@@ -89,12 +98,15 @@ a { color: #005ea2; text-decoration: underline; }
 </style>
 """
 
+# Utility Functions
+
 def is_big_title(block, doc):
-    """Detection of big titles"""
+    """Determine if a text block should be treated as a main heading"""
     if block['type'] != 0 or len(block['lines']) == 0:
         return False
     
     try:
+        # Compare block's max font size with document's max font size
         max_font = max(
             span['size']
             for line in block['lines']
@@ -114,47 +126,50 @@ def is_big_title(block, doc):
         return False
 
 def safe_ocr(pil_img):
-    """Effectue l'OCR de manière sécurisée"""
+    """Safely extract text from image using OCR"""
     if not tesseract_available:
-        return "Image (OCR non disponible)"
+        return "Image (OCR not available)"
     
     try:
         text = pytesseract.image_to_string(pil_img, lang="fra").strip()
-        return text if text else "Image sans texte détectable"
+        return text if text else "Image with no detectable text"
     except Exception as e:
-        logger.warning(f"Erreur OCR: {e}")
-        return "Image (erreur OCR)"
+        logger.warning(f"OCR error: {e}")
+        return "Image (OCR error)"
 
 def pdf_to_accessible_html(pdf_path: str):
-    """Convert PDF to accessible HTML"""
+    """Convert PDF file to accessible HTML format"""
+    # Open PDF
     try:
         doc = fitz.open(pdf_path)
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Impossible d'ouvrir le PDF: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Unable to open PDF: {str(e)}")
     
     try:
+        # Extract title and initialize HTML
         title = doc.metadata.get('title', 'Document') or 'Document'
         html_output = [
             f'<html lang="fr"><head><meta charset="UTF-8"><title>{title} Accessible</title>{css}</head><body>',
             f"<h1>{title}</h1>"
         ]
 
+        # Process each page
         for page_num, page in enumerate(doc, start=1):
             html_output.append(f"<section aria-label='Page {page_num}'>")
             
             try:
+                # Extract and sort text blocks by position
                 blocks = sorted(
                     page.get_text("dict")["blocks"], 
                     key=lambda b: (b.get("bbox", [0,0,0,0])[1], b.get("bbox", [0,0,0,0])[0])
                 )
             except Exception as e:
-                logger.warning(f"Erreur lors de l'extraction des blocs de la page {page_num}: {e}")
-                html_output.append(f"<p>Erreur lors du traitement de la page {page_num}</p>")
+                logger.warning(f"Error extracting blocks from page {page_num}: {e}")
+                html_output.append(f"<p>Error processing page {page_num}</p>")
                 html_output.append("</section>")
                 continue
 
-            # Links extraction
-            links = []
+            # Extract hyperlinks
             links_zones = []
             try:
                 links = page.get_links()
@@ -162,10 +177,10 @@ def pdf_to_accessible_html(pdf_path: str):
                     if l['kind'] == 2 and 'uri' in l:
                         links_zones.append((l['from'], l['uri']))
             except Exception as e:
-                logger.warning(f"Erreur lors de l'extraction des liens: {e}")
+                logger.warning(f"Error extracting links: {e}")
                 
             def find_link_for_span(span_bbox):
-                """Find link for a span"""
+                """Check if text span overlaps with a hyperlink"""
                 try:
                     for bbox, uri in links_zones:
                         x0, y0, x1, y1 = bbox
@@ -177,9 +192,11 @@ def pdf_to_accessible_html(pdf_path: str):
                     pass
                 return None
 
+            # Process each block (text or image)
             for block in blocks:
                 try:
                     if block["type"] == 0:  # Text block
+                        # Extract and combine text from all spans
                         content = []
                         for line in block.get("lines", []):
                             for span in line.get("spans", []):
@@ -188,29 +205,25 @@ def pdf_to_accessible_html(pdf_path: str):
                                     continue
                                 text = text.replace('\u2022', '').replace('\uf0b7', '')
                                 
-                                # Vérifier les liens
+                                # Check for hyperlinks
                                 link = find_link_for_span(span.get("bbox", [0,0,0,0]))
                                 if link:
                                     text = f'<a href="{link}">{text}</a>'
                                 else:
-                                    # Chercher des URLs dans le texte
+                                    # Auto-detect URLs in text
                                     url_match = re.search(r"(https?://[^\s]+|www\.[^\s]+)", text)
                                     if url_match:
                                         url = url_match.group(0)
                                         if not url.startswith("http"):
                                             url = "http://" + url
-                                        text = re.sub(
-                                            r"(https?://[^\s]+|www\.[^\s]+)",
-                                            f'<a href="{url}">{url}</a>',
-                                            text
-                                        )
+                                        text = re.sub(r"(https?://[^\s]+|www\.[^\s]+)", f'<a href="{url}">{url}</a>', text)
                                 content.append(text)
                         
                         content_text = " ".join(content)
                         if not content_text:
                             continue
                             
-                        # Traitement des listes à puces
+                        # Handle bullet point lists
                         if '•' in content_text or '\uf0b7' in content_text:
                             items = [itm.strip(" ;:") for itm in re.split(r'[•\uf0b7]', content_text) if itm.strip()]
                             if len(items) > 1:
@@ -221,6 +234,7 @@ def pdf_to_accessible_html(pdf_path: str):
                                 html_output.append("</ul>")
                                 continue
 
+                        # Determine HTML tag based on font size
                         tag = "h2" if is_big_title(block, doc) else "p"
                         html_output.append(f"<{tag}>{content_text}</{tag}>")
                         
@@ -230,8 +244,8 @@ def pdf_to_accessible_html(pdf_path: str):
                             continue
                             
                         try:
+                            # Process image and embed as base64
                             pil_img = Image.open(BytesIO(raw))
-                            # Embedding image in base64
                             buffer = BytesIO()
                             pil_img.save(buffer, format=pil_img.format or 'PNG')
                             img_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
@@ -245,11 +259,11 @@ def pdf_to_accessible_html(pdf_path: str):
                                 "</figure>"
                             )
                         except Exception as e:
-                            logger.warning(f"Erreur lors du traitement de l'image: {e}")
-                            html_output.append("<p>Image non traitée (erreur de conversion)</p>")
+                            logger.warning(f"Error processing image: {e}")
+                            html_output.append("<p>Image not processed (conversion error)</p>")
                             
                 except Exception as e:
-                    logger.warning(f"Erreur lors du traitement d'un bloc: {e}")
+                    logger.warning(f"Error processing block: {e}")
                     continue
 
             html_output.append("</section>")
@@ -260,14 +274,16 @@ def pdf_to_accessible_html(pdf_path: str):
     finally:
         doc.close()
 
+# API Endpoints
+
 @app.get("/")
 async def root():
-    """Point d'entrée de l'API"""
+    """Basic API information"""
     return {"message": "PDF to HTML Converter API", "status": "running"}
 
 @app.get("/health")
 async def health_check():
-    """Vérification de l'état de l'API"""
+    """Health check with system diagnostics"""
     return {
         "status": "healthy",
         "tesseract_available": tesseract_available,
@@ -276,48 +292,44 @@ async def health_check():
 
 @app.post("/convert")
 async def convert_pdf(file: UploadFile):
-    """Convertit un PDF en HTML accessible"""
+    """Convert PDF to accessible HTML with validation and scoring"""
     
-    # Validation du fichier
+    # Input validation
     if not file.filename:
-        raise HTTPException(status_code=400, detail="Nom de fichier manquant")
-    
+        raise HTTPException(status_code=400, detail="Missing filename")
     if not file.filename.lower().endswith('.pdf'):
-        raise HTTPException(status_code=400, detail="Le fichier doit être un PDF")
-    
+        raise HTTPException(status_code=400, detail="File must be a PDF")
     if not file.size or file.size == 0:
-        raise HTTPException(status_code=400, detail="Le fichier est vide")
-    
-    # Limite de taille (50MB)
+        raise HTTPException(status_code=400, detail="File is empty")
     if file.size and file.size > 50 * 1024 * 1024:
-        raise HTTPException(status_code=400, detail="Le fichier est trop volumineux (maximum 50MB)")
+        raise HTTPException(status_code=400, detail="File too large (maximum 50MB)")
     
     tmp_path = None
     try:
-        # Créer un fichier temporaire
+        # Save uploaded file temporarily
         with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp:
             contents = await file.read()
             if not contents:
-                raise HTTPException(status_code=400, detail="Le fichier est vide")
+                raise HTTPException(status_code=400, detail="File is empty")
             tmp.write(contents)
             tmp_path = tmp.name
         
-        # Conversion
+        # Convert PDF to HTML
         html_content, title = pdf_to_accessible_html(tmp_path)
         
-        # Calcul du score d'accessibilité
+        # Calculate accessibility score
         score = 100
         warnings = []
         
-        # Vérifications d'accessibilité
         if "alt=" not in html_content or "alt=''" in html_content:
             score -= 10
-            warnings.append("Certaines images n'ont pas de description (alt)")
+            warnings.append("Some images lack descriptions (alt text)")
             
         if "<table" in html_content and "role=" not in html_content:
             score -= 10
-            warnings.append("Certains tableaux n'ont pas d'attribut d'accessibilité")
+            warnings.append("Some tables lack accessibility attributes")
             
+        # Check heading structure
         header_counts = {
             'h1': html_content.count('<h1>'),
             'h2': html_content.count('<h2>'),
@@ -326,13 +338,13 @@ async def convert_pdf(file: UploadFile):
         
         if header_counts['h1'] == 0:
             score -= 5
-            warnings.append("Document sans titre principal (H1)")
+            warnings.append("Document without main title (H1)")
         elif header_counts['h1'] > 1:
             score -= 3
-            warnings.append("Plusieurs titres H1")
+            warnings.append("Multiple H1 titles")
         
         if not tesseract_available:
-            warnings.append("OCR non disponible - descriptions d'images limitées")
+            warnings.append("OCR not available - limited image descriptions")
         
         return {
             "html": html_content,
@@ -349,19 +361,18 @@ async def convert_pdf(file: UploadFile):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Erreur lors de la conversion: {e}")
-        raise HTTPException(
-            status_code=500, 
-            detail=f"Erreur lors de la conversion du PDF: {str(e)}"
-        )
+        logger.error(f"Error during conversion: {e}")
+        raise HTTPException(status_code=500, detail=f"Error during PDF conversion: {str(e)}")
     finally:
-        # Nettoyage du fichier temporaire
+        # Clean up temporary file
         if tmp_path and os.path.exists(tmp_path):
             try:
                 os.unlink(tmp_path)
             except Exception as e:
-                logger.warning(f"Impossible de supprimer le fichier temporaire: {e}")
+                logger.warning(f"Unable to delete temporary file: {e}")
 
+# Server Startup
 if __name__ == "__main__":
+    """Run the server directly - accessible at http://localhost:8000"""
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
