@@ -101,29 +101,86 @@ a { color: #005ea2; text-decoration: underline; }
 # Utility Functions
 
 def is_big_title(block, doc):
-    """Determine if a text block should be treated as a main heading"""
+    """Determine if a text block should be treated as a heading based on font size"""
     if block['type'] != 0 or len(block['lines']) == 0:
         return False
     
     try:
-        # Compare block's max font size with document's max font size
+        # Get the maximum font size of this block
         max_font = max(
             span['size']
             for line in block['lines']
             for span in line['spans']
             if 'size' in span
         )
-        max_doc_font = max(
+        
+        # Collect all font sizes in the document
+        all_font_sizes = []
+        for p in doc:
+            for b in p.get_text("dict")["blocks"]:
+                if b['type'] == 0:  # Text blocks only
+                    for l in b['lines']:
+                        for span in l['spans']:
+                            if 'size' in span:
+                                all_font_sizes.append(span['size'])
+        
+        if not all_font_sizes:
+            return False
+            
+        # Calculate average font size (representing normal text)
+        avg_font_size = sum(all_font_sizes) / len(all_font_sizes)
+        
+        # Consider as title if font is significantly larger than average
+        # Use a threshold: if font is 20% larger than average, it's likely a title
+        title_threshold = avg_font_size * 1.2
+        
+        return max_font >= title_threshold
+        
+    except (ValueError, KeyError, ZeroDivisionError):
+        return False
+
+def get_heading_level(block, doc):
+    """Determine the heading level (h1, h2, h3) based on font size relative to document"""
+    if block['type'] != 0 or len(block['lines']) == 0:
+        return None
+    
+    try:
+        # Get the maximum font size of this block
+        max_font = max(
             span['size']
-            for p in doc
-            for b in p.get_text("dict")["blocks"] if b['type'] == 0
-            for l in b['lines']
-            for span in l['spans']
+            for line in block['lines']
+            for span in line['spans']
             if 'size' in span
         )
-        return max_font >= max_doc_font - 0.1
-    except (ValueError, KeyError):
-        return False
+        
+        # Collect all font sizes in the document
+        all_font_sizes = []
+        for p in doc:
+            for b in p.get_text("dict")["blocks"]:
+                if b['type'] == 0:  # Text blocks only
+                    for l in b['lines']:
+                        for span in l['spans']:
+                            if 'size' in span:
+                                all_font_sizes.append(span['size'])
+        
+        if not all_font_sizes:
+            return None
+            
+        max_doc_font = max(all_font_sizes)
+        avg_font_size = sum(all_font_sizes) / len(all_font_sizes)
+        
+        # Determine heading level based on font size
+        if max_font >= max_doc_font * 0.95:  # Largest fonts = h1
+            return "h1"
+        elif max_font >= avg_font_size * 1.5:  # Very large = h2
+            return "h2"  
+        elif max_font >= avg_font_size * 1.2:  # Moderately large = h3
+            return "h3"
+        else:
+            return None  # Regular text
+            
+    except (ValueError, KeyError, ZeroDivisionError):
+        return None
 
 def safe_ocr(pil_img):
     """Safely extract text from image using OCR"""
@@ -235,7 +292,8 @@ def pdf_to_accessible_html(pdf_path: str):
                                 continue
 
                         # Determine HTML tag based on font size
-                        tag = "h2" if is_big_title(block, doc) else "p"
+                        heading_level = get_heading_level(block, doc)
+                        tag = heading_level if heading_level else "p"
                         html_output.append(f"<{tag}>{content_text}</{tag}>")
                         
                     elif block["type"] == 1:  # Image block
