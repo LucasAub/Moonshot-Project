@@ -8,11 +8,11 @@ from server_enhanced import is_big_title, safe_ocr, app
 from fastapi.testclient import TestClient
 import fitz
 
-# Client de test pour l'API
+# Test client for the API
 client = TestClient(app)
 
 def test_health_endpoint():
-    """Test que l'endpoint /health fonctionne"""
+    """Test that the /health endpoint works"""
     response = client.get("/health")
     assert response.status_code == 200
     data = response.json()
@@ -22,7 +22,7 @@ def test_health_endpoint():
     assert "platform" in data
 
 def test_root_endpoint():
-    """Test que l'endpoint racine fonctionne"""
+    """Test that the root endpoint works"""
     response = client.get("/")
     assert response.status_code == 200
     data = response.json()
@@ -30,8 +30,8 @@ def test_root_endpoint():
     assert "status" in data
 
 def test_is_big_title_function():
-    """Test la fonction de détection des gros titres"""
-    # Créer un faux bloc avec une grande police
+    """Test the big title detection function"""
+    # Create a mock block with a large font
     mock_block = {
         'type': 0,
         'lines': [{
@@ -39,7 +39,7 @@ def test_is_big_title_function():
         }]
     }
     
-    # Créer un faux document avec une police plus petite
+    # Create a mock document with a smaller font
     mock_doc = [
         type('MockPage', (), {
             'get_text': lambda self, format: {
@@ -51,42 +51,42 @@ def test_is_big_title_function():
         })()
     ]
     
-    # Le titre devrait être détecté comme grand
+    # The title should be detected as big
     result = is_big_title(mock_block, mock_doc)
     assert result == True
 
-    # Test avec un bloc d'image (type 1)
+    # Test with an image block (type 1)
     mock_image_block = {'type': 1, 'lines': []}
     result = is_big_title(mock_image_block, mock_doc)
     assert result == False
 
 def test_safe_ocr_function():
-    """Test la fonction OCR sécurisée"""
-    # Créer une image simple en mémoire
+    """Test the safe OCR function"""
+    # Create a simple image in memory
     img = Image.new('RGB', (100, 50), color='white')
     
-    # Test de la fonction OCR
+    # Test the OCR function
     result = safe_ocr(img)
     
-    # Le résultat devrait être une chaîne
+    # The result should be a string
     assert isinstance(result, str)
     
-    # Le résultat ne devrait pas être vide
+    # The result should not be empty
     assert len(result) > 0
     
-    # Il devrait contenir soit du texte détecté, soit un message d'état
+    # It should contain either detected text or a status message
     assert any(msg in result for msg in [
-        "Image", "OCR", "texte", "non disponible", "erreur"
+        "Image", "OCR", "text", "not available", "error"
     ])
 
 def test_convert_endpoint_no_file():
-    """Test l'endpoint de conversion sans fichier"""
+    """Test the conversion endpoint without a file"""
     response = client.post("/convert")
     assert response.status_code == 422  # Unprocessable Entity
 
 def test_convert_endpoint_wrong_file_type():
-    """Test l'endpoint de conversion avec un mauvais type de fichier"""
-    # Créer un fichier texte au lieu d'un PDF
+    """Test the conversion endpoint with wrong file type"""
+    # Create a text file instead of a PDF
     fake_file = io.BytesIO(b"This is not a PDF")
     
     response = client.post(
@@ -99,7 +99,7 @@ def test_convert_endpoint_wrong_file_type():
     assert "PDF" in data["detail"]
 
 def test_convert_endpoint_empty_file():
-    """Test l'endpoint de conversion avec un fichier vide"""
+    """Test the conversion endpoint with an empty file"""
     fake_file = io.BytesIO(b"")
     
     response = client.post(
@@ -110,23 +110,23 @@ def test_convert_endpoint_empty_file():
     assert response.status_code == 400
 
 def create_simple_pdf():
-    """Créer un PDF simple pour les tests"""
-    # Créer un PDF simple avec PyMuPDF
-    doc = fitz.open()  # Nouveau document
-    page = doc.new_page()  # Nouvelle page
+    """Create a simple PDF for testing"""
+    # Create a simple PDF with PyMuPDF
+    doc = fitz.open()  # New document
+    page = doc.new_page()  # New page
     
-    # Ajouter du texte
+    # Add text
     page.insert_text((50, 100), "Test Title", fontsize=20)
     page.insert_text((50, 150), "This is a test paragraph with normal text.", fontsize=12)
     
-    # Sauvegarder en mémoire
+    # Save to memory
     pdf_bytes = doc.write()
     doc.close()
     
     return io.BytesIO(pdf_bytes)
 
 def test_convert_endpoint_valid_pdf():
-    """Test l'endpoint de conversion avec un PDF valide"""
+    """Test the conversion endpoint with a valid PDF"""
     pdf_file = create_simple_pdf()
     
     response = client.post(
@@ -137,28 +137,28 @@ def test_convert_endpoint_valid_pdf():
     assert response.status_code == 200
     data = response.json()
     
-    # Vérifier la structure de la réponse
+    # Check the response structure
     assert "html" in data
     assert "title" in data
     assert "accessibilityScore" in data
     assert "warnings" in data
     assert "metadata" in data
     
-    # Vérifier que le HTML contient les éléments attendus
+    # Check that the HTML contains expected elements
     html = data["html"]
     assert "<html" in html
     assert "<h1>" in html
-    assert "<h2>" in html or "<p>" in html  # Au moins un de ces tags
+    assert "<h2>" in html or "<p>" in html  # At least one of these tags
     assert "</html>" in html
     
-    # Vérifier les métadonnées
+    # Check metadata
     metadata = data["metadata"]
     assert "filename" in metadata
     assert "size" in metadata
     assert "tesseract_used" in metadata
 
 def test_html_tags_conversion():
-    """Test spécifique pour vérifier que les tags HTML sont bien générés"""
+    """Specific test to check that HTML tags are properly generated"""
     pdf_file = create_simple_pdf()
     
     response = client.post(
@@ -170,7 +170,7 @@ def test_html_tags_conversion():
     data = response.json()
     html = data["html"]
     
-    # Vérifier la présence des tags essentiels
+    # Check the presence of essential tags
     assert "<html lang=\"fr\">" in html
     assert "<head>" in html
     assert "<meta charset=\"UTF-8\">" in html
@@ -182,23 +182,23 @@ def test_html_tags_conversion():
     assert "</body>" in html
     assert "</html>" in html
     
-    # Vérifier que le CSS est inclus
+    # Check that CSS is included
     assert "<style>" in html
     assert "font-family:" in html
 
 def test_image_processing():
-    """Test pour vérifier le traitement des images dans le PDF"""
-    # Créer un PDF avec une image
+    """Test to check image processing in PDF"""
+    # Create a PDF with an image
     doc = fitz.open()
     page = doc.new_page()
     
-    # Créer une image simple
+    # Create a simple image
     img = Image.new('RGB', (100, 50), color='red')
     img_bytes = io.BytesIO()
     img.save(img_bytes, format='PNG')
     img_bytes.seek(0)
     
-    # Insérer l'image dans le PDF
+    # Insert the image in the PDF
     img_rect = fitz.Rect(50, 50, 150, 100)
     page.insert_image(img_rect, stream=img_bytes.getvalue())
     
@@ -216,12 +216,12 @@ def test_image_processing():
     data = response.json()
     html = data["html"]
     
-    # Vérifier que l'image est bien traitée
+    # Check that the image is properly processed
     assert "<figure>" in html
     assert "<img" in html
     assert "alt=" in html
     assert "<figcaption>" in html
-    assert "data:image/" in html  # Image encodée en base64
+    assert "data:image/" in html  # Base64 encoded image
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
